@@ -64,29 +64,19 @@ export default function Post({ post, posts, preview }) {
     </Layout>
   );
 }
-
-export const getStaticProps = async ({
-  params,
-  preview = false,
-  previewData,
-}) => {
-  console.log(params?.slug, preview, previewData)
-  const data = await getPostAndMorePosts(params?.slug, preview, previewData);
-
-  return {
-    props: {
-      preview,
-      post: data.post,
-      posts: data.posts,
-    },
-    revalidate: 10,
+export const getServerSideProps= async ({
+    params,
+    preview = false,
+    previewData,
+  }) => {
+    const data = await getPostAndMorePosts(params?.slug, preview, previewData);
+  
+    return {
+      props: {
+        preview,
+        post: data.post,
+        posts: data.posts,
+      },
+      revalidate: 10,
+    };
   };
-};
-
-export const getStaticPaths = async () => {
-  const allPosts = await getAllPostsWithSlug();
-  return {
-    paths: allPosts.edges.map(( node) => `/${node.slug}`) || [],
-    fallback: true,
-  };
-};
