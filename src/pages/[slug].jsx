@@ -76,7 +76,7 @@ export const getServerSideProps= async ({
         preview,
         post: data.post,
         posts: data.posts,
-      },
-      revalidate: 10,
+        revalidate: 10,
+      }
     };
   };
